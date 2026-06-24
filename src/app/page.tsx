@@ -33,7 +33,53 @@ export default function Home() {
   const homeControls = useAnimation();
   const restControls = useAnimation();
   
+  const [isSectionTransitioning, setIsSectionTransitioning] = useState(false);
+  const columnControls = useAnimation();
+  
   const mainRef = useRef<HTMLDivElement>(null);
+
+  const handleSectionClick = async (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    if (isTransitioning || isSectionTransitioning) return;
+    
+    setIsSectionTransitioning(true);
+
+    if (isMenuOpen) {
+      handleToggle();
+      // Wait for menu close animation to start
+      await new Promise(r => setTimeout(r, 200));
+    }
+
+    // 1. Wipe IN (5 columns down)
+    await columnControls.start(i => ({
+      scaleY: 1,
+      transformOrigin: "top",
+      transition: { duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }
+    }));
+
+    // 2. Jump to target
+    const targetId = href.startsWith('/') ? href.substring(1) : href;
+    const isHash = targetId.startsWith('#');
+    const target = isHash ? document.querySelector(targetId) : null;
+    
+    if (target) {
+      const yPos = target.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top: yPos, behavior: 'instant' });
+    } else if (href === '#home' || href === '/') {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+
+    await new Promise(r => setTimeout(r, 100));
+
+    // 3. Wipe OUT (5 columns shrink down)
+    await columnControls.start(i => ({
+      scaleY: 0,
+      transformOrigin: "bottom",
+      transition: { duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }
+    }));
+
+    setIsSectionTransitioning(false);
+  };
 
   useGSAP(() => {
     // --- Intro Timeline ---
@@ -194,7 +240,7 @@ export default function Home() {
                   <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-blue-500/20 flex items-center justify-center">
                     <svg width="14" height="14" className="sm:w-4 sm:h-4" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
                   </div>
-                  UI/UX Developer
+                  UI/UX Designer
                 </div>
               </div>
 
@@ -205,7 +251,7 @@ export default function Home() {
                   <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-green-500/20 flex items-center justify-center">
                     <svg width="14" height="14" className="sm:w-4 sm:h-4" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
                   </div>
-                  Creative Developer
+                  Frontend Developer
                 </div>
               </div>
 
@@ -216,7 +262,7 @@ export default function Home() {
                   <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-purple-500/20 flex items-center justify-center">
                     <svg width="14" height="14" className="sm:w-4 sm:h-4" viewBox="0 0 24 24" fill="none" stroke="#C084FC" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
                   </div>
-                  Full-Stack Engineer
+                  Performance Engineer
                 </div>
               </div>
 
@@ -347,20 +393,10 @@ export default function Home() {
               </div>
 
               {/* Main Center Content */}
-              <div className="w-full flex flex-col xl:flex-row items-center justify-center xl:justify-between relative z-10 px-6 sm:px-12 xl:px-0 -mt-10 gap-8 xl:gap-0">
+              <div className="w-full flex flex-col items-center justify-center relative z-10 px-6 sm:px-12 xl:px-0 -mt-10 gap-8">
                 
-                {/* Left Section */}
-                <div className="flex items-center justify-center xl:justify-start gap-4 sm:gap-6 w-full xl:w-auto xl:flex-1 xl:pr-8 hero-content opacity-0">
-                  <div className="h-[1px] bg-black/20 flex-1 hidden xl:block"></div>
-                  <div className="h-[1px] bg-black/20 flex-1 block xl:hidden max-w-[50px]"></div>
-                  <span className="text-xs sm:text-sm font-medium tracking-[0.2em] uppercase text-[#555] whitespace-nowrap">
-                    Web Designer
-                  </span>
-                  <div className="h-[1px] bg-black/20 flex-1 block xl:hidden max-w-[50px]"></div>
-                </div>
-
                 {/* Center Title */}
-                <div className="flex flex-col items-center text-center px-0 xl:px-8 shrink-0 hero-content opacity-0">
+                <div className="flex flex-col items-center text-center px-0 shrink-0 hero-content opacity-0 z-10">
                   <h1 className="font-display font-bold leading-[0.85] tracking-[-0.04em] text-[#1a1a1a] flex flex-col items-center uppercase">
                     <div className="relative flex justify-center">
                       {"Nowshad".split("").map((letter, index) => (
@@ -387,15 +423,29 @@ export default function Home() {
                   </h1>
                 </div>
 
-                {/* Right Section */}
-                <div className="flex items-center justify-center xl:justify-end gap-4 sm:gap-6 w-full xl:w-auto xl:flex-1 xl:pl-8 hero-content opacity-0">
-                  <div className="h-[1px] bg-black/20 flex-1 block xl:hidden max-w-[50px]"></div>
-                  <span className="text-xs sm:text-sm font-medium tracking-[0.2em] uppercase text-[#555] whitespace-nowrap">
-                    Based in Dhaka, BD
-                  </span>
-                  <div className="h-[1px] bg-black/20 flex-1 hidden xl:block"></div>
-                  <div className="h-[1px] bg-black/20 flex-1 block xl:hidden max-w-[50px]"></div>
+                {/* Subtitles (Under NOWSHAD) */}
+                <div className="w-full max-w-5xl flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-12 hero-content opacity-0 mt-2 px-4 z-20">
+                  {/* Left Section */}
+                  <div className="flex items-center justify-center sm:justify-start gap-4 sm:gap-6 w-full sm:flex-1">
+                    <div className="h-[1px] bg-black/20 flex-1 block sm:hidden max-w-[50px]"></div>
+                    <span className="text-xs sm:text-sm font-medium tracking-[0.2em] uppercase text-[#555] whitespace-nowrap">
+                      Web Designer
+                    </span>
+                    <div className="h-[1px] bg-black/20 flex-1 hidden sm:block"></div>
+                    <div className="h-[1px] bg-black/20 flex-1 block sm:hidden max-w-[50px]"></div>
+                  </div>
+
+                  {/* Right Section */}
+                  <div className="flex items-center justify-center sm:justify-end gap-4 sm:gap-6 w-full sm:flex-1">
+                    <div className="h-[1px] bg-black/20 flex-1 block sm:hidden max-w-[50px]"></div>
+                    <div className="h-[1px] bg-black/20 flex-1 hidden sm:block"></div>
+                    <span className="text-xs sm:text-sm font-medium tracking-[0.2em] uppercase text-[#555] whitespace-nowrap">
+                      Based in Dhaka, Bangladesh
+                    </span>
+                    <div className="h-[1px] bg-black/20 flex-1 block sm:hidden max-w-[50px]"></div>
+                  </div>
                 </div>
+
               </div>
             </div>
           </section>
@@ -645,7 +695,20 @@ export default function Home() {
 
       {/* Global Elements (Menu & Tab outside scroll container to remain truly fixed) */}
       <div className="fixed inset-0 pointer-events-none z-[100]">
-        
+
+        {/* Section Transition Overlay (5 Columns) */}
+        <div className="fixed inset-0 z-[99998] pointer-events-none flex">
+          {[0, 1, 2, 3, 4].map((i) => (
+            <motion.div
+              key={i}
+              className="flex-1 bg-[#1a1a1a]"
+              initial={{ scaleY: 0, transformOrigin: "top" }}
+              animate={columnControls}
+              custom={i}
+            />
+          ))}
+        </div>
+
         {/* Bottom Menu Button */}
         <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-50 flex justify-center items-end pointer-events-auto">
           <motion.div
@@ -666,7 +729,7 @@ export default function Home() {
 
             {/* Links Container (Horizontal) */}
             <div className="absolute top-0 left-0 right-0 h-[100px] px-3 sm:px-8 flex items-center justify-center gap-4 sm:gap-10 z-10 pointer-events-none">
-              <motion.a href="#home" onClick={() => handleToggle()} initial={{ opacity: 0, y: 20 }} animate={homeControls} className="font-sans font-bold text-[15px] sm:text-[22px] tracking-wide text-white whitespace-nowrap group relative overflow-hidden inline-block" style={{ pointerEvents: isMenuOpen ? "auto" : "none" }}>
+              <motion.a href="#home" onClick={(e) => handleSectionClick(e, "#home")} initial={{ opacity: 0, y: 20 }} animate={homeControls} className="font-sans font-bold text-[15px] sm:text-[22px] tracking-wide text-white whitespace-nowrap group relative overflow-hidden inline-block" style={{ pointerEvents: isMenuOpen ? "auto" : "none" }}>
                 <div className="transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-full">
                   <span className="block pr-2">HOME</span>
                   <span className="block absolute top-full left-0 pr-2 text-[#FCE145]">HOME</span>
@@ -677,7 +740,7 @@ export default function Home() {
                 { name: "ABOUT", href: "#about" },
                 { name: "CONTACT", href: "#contact" }
               ].map((item, i) => (
-                <motion.a key={item.name} href={item.href} onClick={() => handleToggle()} custom={i} initial={{ opacity: 0, y: 20 }} animate={restControls} className="font-sans font-bold text-[13px] sm:text-[19px] tracking-wide text-white whitespace-nowrap group relative overflow-hidden inline-block" style={{ pointerEvents: isMenuOpen ? "auto" : "none" }}>
+                <motion.a key={item.name} href={item.href} onClick={(e) => handleSectionClick(e, item.href)} custom={i} initial={{ opacity: 0, y: 20 }} animate={restControls} className="font-sans font-bold text-[13px] sm:text-[19px] tracking-wide text-white whitespace-nowrap group relative overflow-hidden inline-block" style={{ pointerEvents: isMenuOpen ? "auto" : "none" }}>
                   <div className="transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-full">
                     <span className="block pr-2">{item.name}</span>
                     <span className="block absolute top-full left-0 pr-2 text-[#FCE145]">{item.name}</span>
