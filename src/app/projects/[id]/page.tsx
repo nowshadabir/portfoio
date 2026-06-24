@@ -8,6 +8,37 @@ import SmoothScroll from "@/components/SmoothScroll";
 
 // Mock Data
 const projectsData: Record<string, any> = {
+  "finde": {
+    name: "Finde",
+    logoInitial: "F",
+    category: "MOBILE APP DESIGN",
+    year: "2026",
+    descriptionHtml: `<b>Finde (User App)</b> is a consumer-facing platform focused on discovery, real-time utility, and social interaction.<br/><br/>
+    <h3 class="text-xl font-bold mt-6 mb-2">Event Discovery Module</h3>
+    <p class="mb-4">Features an <b>Activity Hub</b> to view "Where & When," venue facilities, and linked food offers. It ensures transparency with clear ticket prices and organizer profiles, driven by a Smart Calendar with date and location filters.</p>
+    <h3 class="text-xl font-bold mt-6 mb-2">Food & Discount Hub</h3>
+    <p class="mb-4">Provides live merchant offers directly via Finde Business, third-party aggregator integration, and an algorithm-driven personalized "For You" feed. Includes a unique <b>Live Vibe Check</b> for real-time visibility of a merchant’s "Free/Busy" status.</p>
+    <h3 class="text-xl font-bold mt-6 mb-2">Engagement & Rewards</h3>
+    <p class="mb-4">Gamification mechanics ensure high-quality user contributions through a robust review system. Users earn <b>Finde Points</b> for interactions, which unlock exclusive loyalty tiers and private deals.</p>
+    <h3 class="text-xl font-bold mt-6 mb-2">Community & Content (The Feed)</h3>
+    <p>A social media layer designed to drive organic growth. It features a scrolling feed for sharing experiences, smart tagging for merchants and friends, and full interaction capabilities. <b>Finde Groups</b> allow users to coordinate social meetups with capacity management and join requests.</p>`,
+    services: [
+      "Product Strategy",
+      "UI/UX Design",
+      "Mobile App Design",
+      "Interaction Design"
+    ],
+    challenge: "Designing a unified mobile interface that seamlessly balances a powerful event/food discovery engine with deep social engagement and gamified rewards, all without overwhelming the user.",
+    role: "Lead Product Designer responsible for architecting the entire mobile application journey, from core discovery flows to community engagement layers.",
+    uiImages: [
+      "/project-contents/finde/images/finde-home-light.jpeg",
+      "/project-contents/finde/images/finde-home-dark.jpeg",
+      "/project-contents/finde/images/finde-explore-light.jpeg",
+      "/project-contents/finde/images/finde-explore-dark.jpeg",
+      "/project-contents/finde/images/finde-profile-light.jpeg",
+      "/project-contents/finde/images/finde-profile-dark.jpeg"
+    ]
+  },
   "understood": {
     name: "Understood",
     logoInitial: "U",
@@ -158,6 +189,32 @@ export default function ProjectDetails({ params }: { params: Promise<{ id: strin
               </p>
             </div>
           </div>
+
+          {/* UI Showcase */}
+          {project.uiImages && (
+            <div className="mt-32">
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+                <h4 className="text-4xl md:text-5xl font-display font-bold uppercase tracking-tight text-[#111]">
+                  UI Showcase
+                </h4>
+                <p className="text-lg font-mono text-[#555] max-w-sm">
+                  A glimpse into the core screens and design system of the application.
+                </p>
+              </div>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+                {project.uiImages.map((src: string, index: number) => (
+                  <div key={index} className="w-full aspect-[9/19.5] rounded-[32px] overflow-hidden border-8 border-[#111] bg-[#111] shadow-2xl group cursor-crosshair">
+                    <img 
+                      src={src} 
+                      alt={`${project.name} UI Screen ${index + 1}`} 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] rounded-[24px]" 
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
         </div>
       </main>

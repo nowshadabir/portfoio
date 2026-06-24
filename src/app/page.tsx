@@ -159,7 +159,7 @@ export default function Home() {
 
     // 7. About Section Scrolling Timeline
     mainTl.to('.experience-list', 
-      { y: "-100%", ease: "none", duration: 3.5 },
+      { y: "-60%", ease: "none", duration: 1.5 },
       5.5
     );
 
@@ -208,8 +208,8 @@ export default function Home() {
 
   return (
     <main id="home" ref={mainRef} className="relative bg-[#FCE145] text-[#111]">
-      <div className="scroll-container h-[600vh] md:h-[1000vh] w-full relative">
-        <div id="about" className="absolute top-[61.11%] left-0 w-full h-1 pointer-events-none" />
+      <div className="scroll-container h-[450vh] md:h-[750vh] w-full relative">
+        <div id="about" className="absolute top-[78.57%] left-0 w-full h-1 pointer-events-none" />
         
         {/* Sticky viewport container */}
         <div className="sticky top-0 left-0 w-full h-screen overflow-hidden">
@@ -473,10 +473,8 @@ export default function Home() {
                 <div className="experience-list absolute top-[50vh] w-full px-4 sm:px-16 lg:px-24 flex flex-col gap-0 pb-[30vh]">
                   
                   {[
-                    { year: "2024 - Present", role: "Chief Technology Officer", company: "Trip Zone", current: true },
                     { year: "2024 - Present", role: "Managing Director", company: "Vivago Technologies", current: true },
-                    { year: "2024", role: "Co-ordinator, Cox's Bazar", company: "Anti-Discrimination Student Movement", current: false },
-                    { year: "2023 - 2024", role: "Senior Web Developer", company: "IDEAGO Marketing Solutions", current: false },
+                    { year: "2023 - 2025", role: "Senior Web Developer", company: "IDEAGO Marketing Solutions", current: false },
                     { year: "2022 - 2023", role: "Technical Analyst", company: "Youth Network Centre", current: false },
                   ].map((exp, i) => (
                     <div key={i} className="group relative py-12 border-b border-black/10 transition-colors hover:border-black/30">
@@ -486,7 +484,6 @@ export default function Home() {
                       <div className="relative z-10 flex flex-col sm:flex-row sm:items-baseline gap-4 sm:gap-12 transition-transform duration-500 ease-out group-hover:translate-x-4">
                         {/* Year */}
                         <div className="flex items-center gap-3 w-40 shrink-0">
-                          {exp.current && <span className="w-2.5 h-2.5 rounded-full bg-[#0ACF83] animate-pulse shadow-[0_0_10px_#0ACF83]"></span>}
                           <span className={`font-mono text-sm tracking-widest ${exp.current ? 'text-[#111] font-bold' : 'text-black/50 font-medium'}`}>
                             {exp.year}
                           </span>
@@ -516,7 +513,7 @@ export default function Home() {
 
       {/* Curated Projects Section */}
       <section id="projects" className="curated-projects relative z-40 bg-[#F5F5F3] w-full pt-32 pb-24 text-[#111] border-t border-[#D6D6D6]">
-        <div className="max-w-[1400px] mx-auto px-6 sm:px-12">
+        <div className="max-w-[1000px] mx-auto px-6 sm:px-12">
           
           {/* Header */}
           <div className="text-center mb-20">
@@ -532,31 +529,38 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 border-t border-l border-[#D6D6D6]">
             
             {/* Project 1 */}
-            <Link href="/projects/understood" onClick={(e) => handleProjectClick(e, "/projects/understood")} className="group relative border-r border-b border-[#D6D6D6] aspect-square sm:aspect-[4/3] flex flex-col items-center justify-between p-8 sm:p-12 overflow-hidden cursor-pointer bg-[#F5F5F3]">
-              {/* Hover Background Image (Placeholder) */}
-              <div className="absolute inset-0 bg-gradient-to-br from-gray-300 to-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-0"></div>
+            <Link href="/projects/finde" onClick={(e) => handleProjectClick(e, "/projects/finde")} className="group relative border-r border-b border-[#D6D6D6] aspect-square flex flex-col items-center justify-between p-8 sm:p-12 overflow-hidden cursor-pointer bg-[#F5F5F3]">
+              {/* Hover Background Image */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-0">
+                <img src="/project-contents/finde/Finde-thumbnail.png" alt="Finde App Preview" className="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700" />
+                <div className="absolute inset-0 bg-black/50"></div>
+              </div>
               
-              <span className="relative z-10 font-mono text-sm tracking-widest text-[#555] group-hover:text-[#111] transition-colors duration-500">2026</span>
+              <span className="relative z-10 font-mono text-sm tracking-widest text-[#555] group-hover:opacity-0 transition-opacity duration-500">2026</span>
               
-              <div className="relative z-10 flex flex-col items-center gap-6">
-                <div className="text-3xl md:text-4xl font-bold font-display flex items-center gap-3">
-                  <div className="w-10 h-10 bg-[#111] rounded-[10px] text-white flex items-center justify-center text-xl font-bold tracking-tighter">U</div>
-                  Understood
+              <div className="relative z-10 flex flex-col items-center justify-center min-h-[60px]">
+                <div className="text-3xl md:text-4xl font-bold font-display flex items-center gap-3 transition-opacity duration-500 group-hover:opacity-0">
+                  <img src="/project-contents/finde/finde-logo.png" alt="Finde Logo" className="w-10 h-10 object-contain rounded-[10px]" />
+                  Finde
                 </div>
+              </div>
+              
+              {/* Bottom Section */}
+              <div className="relative z-10 w-full flex items-center justify-center min-h-[40px]">
+                <span className="absolute text-xs font-bold tracking-widest uppercase text-[#111] transition-opacity duration-500 group-hover:opacity-0">Mobile App UI/UX</span>
+                
                 {/* View Project Button */}
-                <div className="absolute top-full mt-4 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 translate-y-4 transition-all duration-500">
-                  <div className="bg-[#F5F5F3] border border-[#D6D6D6] px-6 py-2.5 rounded-full text-sm font-semibold flex items-center gap-2 hover:bg-white transition-colors shadow-sm">
+                <div className="absolute opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 pointer-events-none group-hover:pointer-events-auto">
+                  <div className="bg-[#F5F5F3] border border-[#D6D6D6] px-6 py-2.5 rounded-full text-sm font-semibold flex items-center gap-2 hover:bg-white transition-colors shadow-sm text-[#111] whitespace-nowrap">
                     View project 
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
                   </div>
                 </div>
               </div>
-              
-              <span className="relative z-10 text-xs font-bold tracking-widest uppercase text-[#111]">Product Design | Visual Branding</span>
             </Link>
 
             {/* Project 2 */}
-            <Link href="/projects/rameshwaram-cafe" onClick={(e) => handleProjectClick(e, "/projects/rameshwaram-cafe")} className="group relative border-r border-b border-[#D6D6D6] aspect-square sm:aspect-[4/3] flex flex-col items-center justify-between p-8 sm:p-12 overflow-hidden cursor-pointer bg-[#F5F5F3]">
+            <Link href="/projects/rameshwaram-cafe" onClick={(e) => handleProjectClick(e, "/projects/rameshwaram-cafe")} className="group relative border-r border-b border-[#D6D6D6] aspect-square flex flex-col items-center justify-between p-8 sm:p-12 overflow-hidden cursor-pointer bg-[#F5F5F3]">
               <div className="absolute inset-0 bg-gradient-to-br from-[#E6D5B8] to-[#D5B07C] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-0"></div>
               
               <span className="relative z-10 font-mono text-sm tracking-widest text-[#555] group-hover:text-[#111] transition-colors duration-500">2025</span>
@@ -578,7 +582,7 @@ export default function Home() {
             </Link>
 
             {/* Project 3 */}
-            <Link href="/projects/hatti-kaapi" onClick={(e) => handleProjectClick(e, "/projects/hatti-kaapi")} className="group relative border-r border-b border-[#D6D6D6] aspect-square sm:aspect-[4/3] flex flex-col items-center justify-between p-8 sm:p-12 overflow-hidden cursor-pointer bg-[#F5F5F3]">
+            <Link href="/projects/hatti-kaapi" onClick={(e) => handleProjectClick(e, "/projects/hatti-kaapi")} className="group relative border-r border-b border-[#D6D6D6] aspect-square flex flex-col items-center justify-between p-8 sm:p-12 overflow-hidden cursor-pointer bg-[#F5F5F3]">
               <div className="absolute inset-0 bg-gradient-to-br from-blue-100 to-indigo-200 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-0"></div>
               
               <span className="relative z-10 font-mono text-sm tracking-widest text-[#555] group-hover:text-[#111] transition-colors duration-500">2025</span>
@@ -600,7 +604,7 @@ export default function Home() {
             </Link>
 
             {/* Project 4 */}
-            <Link href="/projects/echo-systems" onClick={(e) => handleProjectClick(e, "/projects/echo-systems")} className="group relative border-r border-b border-[#D6D6D6] aspect-square sm:aspect-[4/3] flex flex-col items-center justify-between p-8 sm:p-12 overflow-hidden cursor-pointer bg-[#F5F5F3]">
+            <Link href="/projects/echo-systems" onClick={(e) => handleProjectClick(e, "/projects/echo-systems")} className="group relative border-r border-b border-[#D6D6D6] aspect-square flex flex-col items-center justify-between p-8 sm:p-12 overflow-hidden cursor-pointer bg-[#F5F5F3]">
               <div className="absolute inset-0 bg-gradient-to-br from-green-100 to-emerald-200 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-0"></div>
               
               <span className="relative z-10 font-mono text-sm tracking-widest text-[#555] group-hover:text-[#111] transition-colors duration-500">2024</span>
@@ -663,7 +667,7 @@ export default function Home() {
           
           {/* Copyright */}
           <div className="flex flex-col items-center lg:items-start gap-2 text-center lg:text-left">
-            <span className="text-white font-bold text-lg md:text-xl tracking-wide uppercase font-display">Vivago Technologies</span>
+            <span className="text-white font-bold text-lg md:text-xl tracking-wide uppercase font-display">Kazi Nowshad Abir</span>
             <span className="text-sm font-medium">© 2026 All rights reserved.</span>
           </div>
 
