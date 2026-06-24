@@ -617,15 +617,6 @@ export default function Home() {
             <span className="text-sm font-medium">© 2026 All rights reserved.</span>
           </div>
 
-          {/* Status & Location */}
-          <div className="flex flex-col items-center gap-3 text-sm text-center">
-            <span className="font-medium text-white/70">Based in Dhaka, Bangladesh</span>
-            <span className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/[0.05] border border-white/10 font-medium">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#0ACF83] animate-pulse shadow-[0_0_10px_#0ACF83]"></span>
-              Available for new opportunities
-            </span>
-          </div>
-
           {/* Social Links */}
           <div className="flex items-center gap-8 text-sm font-bold uppercase tracking-widest text-white/70">
             <a href="#" className="hover:text-[#FFFFFF] transition-colors relative group">
